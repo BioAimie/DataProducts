@@ -1,5 +1,6 @@
-# # set working directory... take this out when the app goes live
+# set working directory... take this out when the app goes live
 # setwd('~/Coursera/DataProducts/app')
+# setwd('~/Documents/Coursera Data Science/DataProducts/app/')
 # 
 # # load the necessary packages
 # library(shiny)
@@ -22,14 +23,14 @@
 #                              tolower(substr(as.character(med.in.df$DRG.Definition), 7, 100)))
 # 
 # med.out.11 <- read.csv('MedicareOutpatientCharges2011.csv', header = TRUE, sep = ','); med.out.11$Year <- 2011
-# med.out.12 <- read.csv('MedicareOutpatientCharges2012.csv', header = TRUE, sep = '  ,'); med.out.12$Year <- 2012
+# med.out.12 <- read.csv('MedicareOutpatientCharges2012.csv', header = TRUE, sep = ','); med.out.12$Year <- 2012
 # med.out.13 <- read.csv('MedicareOutpatientCharges2013.csv', header = TRUE, sep = ','); med.out.13$Year <- 2013
 # med.out.df <- rbind(med.out.11[,c('APC','Provider.State','Outpatient.Services','Average.Total.Payments')],
 #                     med.out.12[,c('APC','Provider.State','Outpatient.Services','Average.Total.Payments')],
 #                     med.out.13[,c('APC','Provider.State','Outpatient.Services','Average.Total.Payments')])
 # med.out.df$Category <- tolower(substr(substr(as.character(med.out.df$APC), (regexpr('Level',as.character(med.out.df$APC))+6), 100), regexpr(' ',substr(as.character(med.out.df$APC), (regexpr('Level',as.character(med.out.df$APC))+6), 100))+1, 100))
-
-source('outputCareCategories.R')
+# 
+# source('outputCareCategories.R')
 
 # create the server object
 shinyServer(function(input, output) {

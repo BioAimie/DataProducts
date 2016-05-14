@@ -2,14 +2,14 @@ shinyUI(fluidPage(
   
   includeCSS('style.css'),
   
-  headerPanel('Medicare Spending Summary:\n Top Prescriptions, Inpatient & Outpatient Care'),
+  headerPanel('Medicare Spending Summary: Top Prescriptions, Inpatient & Outpatient Care'),
   
   fluidRow(
     
     column(3,
            
            selectInput('spendType', 'Display Spending Type:',
-                       choices = c('All Spending','Top Perscriptions','Inpatient Care','Outpatient Care')
+                       choices = c('All Spending','Top Prescriptions','Inpatient Care','Outpatient Care')
                        ),
            
            uiOutput('spendTypeExpansion')
