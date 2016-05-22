@@ -16,7 +16,7 @@ shinyUI(fluidPage(
     ),
     column(9,
           
-           textOutput('Chart should go here!')
+           htmlOutput('chartOutput')
     )
     ),
     

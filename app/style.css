@@ -17,3 +17,8 @@ label.control-label {
     font-weight: bold;
     text-align: left;
 }
+
+#chartOutput.shiny-html-output.shiny-bound-output {
+    padding-top: 5%;
+    margin-left: -5%;
+}
