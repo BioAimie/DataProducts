@@ -1,6 +1,5 @@
 # # set working directory... take this out when the app goes live
 # setwd('~/Coursera/DataProducts/app')
-# # setwd('~/Documents/Coursera Data Science/DataProducts/app/')
 # 
 # # load the necessary packages
 # library(shiny)
@@ -13,7 +12,7 @@
 # rx.df$Total.Spending <- as.numeric(substr(gsub(',','', as.character(rx.df$Total.Spending)), 2, 100))
 # rx.df <- rx.df[,c('Year','Indication','Unit.Count','Total.Spending')]
 # colnames(rx.df)[grep('Indication',colnames(rx.df))] <- 'Category'
-# rx.df$PrescriptionSpending <- rx.df$Total.Spending
+# colnames(rx.df)[grep('Total.Spending',colnames(rx.df))] <- 'PrescriptionSpending'
 # rx.df$Key <- 'TopPrescriptions'
 # rx.df <- rx.df[rx.df$Year < 2014, ]
 # 
@@ -47,12 +46,12 @@
 # colnames(pop)[grep('POPEST18PLUS2015', colnames(pop))] <- 'Population'
 # 
 # source('outputCareCategories.R')
+# source('filterCategory.R')
 
 # create the server object
 shinyServer(function(input, output) {
   
-  # ------------------------ put reactive expressions/functions up here... 
-  # create a list of categories that should be available for filtering
+  # create a list of categories that should be available for filtering - REACTIVE
   categoryList <- reactive({
     
     switch(input$spendType,
@@ -62,42 +61,50 @@ shinyServer(function(input, output) {
     )
   })
   
-  # aggregate the data set for plotting
-  aggregateDataSet <- reactive({
-    
-    switch(input$spendType,
-           'All Spending' = merge(merge(with(med.in.df, aggregate(InPatientSpending~Year, FUN=sum)),with(med.out.df, aggregate(OutPatientSpending~Year, FUN=sum)), by='Year'), with(rx.df, aggregate(PrescriptionSpending~Year, FUN=sum)), by='Year'),
-           'Inpatient Care' = merge(with(med.in.df, aggregate(InPatientSpending~Provider.State+Category, FUN=sum)), pop[,c('StateAbb','Population')], by.x='Provider.State', by.y='StateAbb'),
-           'Outpatient Care' = merge(with(med.out.df, aggregate(OutPatientSpending~Provider.State+Category, FUN=sum)), pop[,c('StateAbb','Population')], by.x='Provider.State', by.y='StateAbb'),
-           'Top Prescriptions' = with(rx.df, aggregate(PrescriptionSpending~Year+Category, FUN=sum))
-    )
-  })
-
-  # ----------------------- non-reactive functions/expressions
+  # create a second selectInput object if "All Spending is not the selection"
   output$spendTypeExpansion <- renderUI( 
     
     switch(input$spendType,
            'Inpatient Care' = selectInput('careCategory','Select Category of Care:', choices = categoryList(), selected = categoryList()[1]),
            'Outpatient Care' = selectInput('careCategory','Select Category of Care:', choices = categoryList(), selected = categoryList()[1]),
            'Top Prescriptions' = selectInput('careCategory','Select Category of Care:', choices = categoryList(), selected = categoryList()[1])
-           )
+    )
   )
   
+  # format the data nicely for plotting - REACTIVE
+  aggregateDataSet <- reactive({
+  
+    switch(input$spendType,
+           'All Spending' = merge(merge(with(med.in.df, aggregate(InPatientSpending~Year, FUN=sum)),with(med.out.df, aggregate(OutPatientSpending~Year, FUN=sum)), by='Year'), with(rx.df, aggregate(PrescriptionSpending~Year, FUN=sum)), by='Year'),
+           'Inpatient Care' = filterCategory(merge(with(med.in.df, aggregate(InPatientSpending~Provider.State+Category, FUN=sum)), pop[,c('StateAbb','Population')], by.x='Provider.State', by.y='StateAbb'), input$careCategory, TRUE),
+           'Outpatient Care' = filterCategory(merge(with(med.out.df, aggregate(OutPatientSpending~Provider.State+Category, FUN=sum)), pop[,c('StateAbb','Population')], by.x='Provider.State', by.y='StateAbb'), input$careCategory, TRUE),
+           'Top Prescriptions' = filterCategory(with(rx.df, aggregate(PrescriptionSpending~Year+Category, FUN=sum)), input$careCategory)
+    )
+  })
+  
+  # format the map data for a table - REACTIVE
+  # reformatToTable <- reactive({
+  #   
+  #   switch(input$spendType,
+  #          'Inpatient Care' = filterCategory(with(med.in.df, aggregate(InPatientSpending~Year+Category, FUN=sum)), input$careCategory),
+  #          'Outpatient Care' = filterCategory(merge(with(med.out.df, aggregate(OutPatientSpending~Year+Category, FUN=sum)), pop[,c('StateAbb','Population')], by.x='Provider.State', by.y='StateAbb'), input$careCategory),
+  #          'Top Prescriptions' = NULL
+  #   )
+  # })
+  
+  # make some interactive charts using googleVis
   output$chartOutput <- renderGvis({
 
-    if(input$spendType == 'All Spending') {
-      
-      gvisBarChart(aggregateDataSet(), xvar='Year', yvar=c('InPatientSpending','OutPatientSpending','PrescriptionSpending'), options = list(title='High-level Summary of Medicare Spending', isStacked=TRUE, legend='bottom', vAxis="{format:'####',ticks:[2011,2012,2013]}", hAxis="{format:'$###,###,###'}", width=1200, height=800))
-    } else if(input$spendType == 'Inpatient Care') {
-      
-           gvisTable(subset(aggregateDataSet(), Category == 'transient ischemia'), options=list(width=1200))
-           #'Inpatient Care' = gvisGeoChart(subset(aggregateDataSet(), Category == as.character(input$careCategory)), locationvar='Provider.State', colorvar='InPatientSpending', options = list(region='US', displayMode='regions', resolution='provinces', colorAxis="{colors:['#FFFFFF','#0000FF']}"))
-    }
+    Sys.sleep(0.1)
+    switch(input$spendType,
+           'All Spending' = gvisBarChart(aggregateDataSet(), xvar='Year', yvar=c('InPatientSpending','OutPatientSpending','PrescriptionSpending'), options = list(title='High-level Summary of Medicare Spending', isStacked=TRUE, legend='bottom', vAxis="{format:'####',ticks:[2011,2012,2013]}", hAxis="{format:'$###,###,###'}", width=1000, height=400)),
+           'Inpatient Care' = gvisGeoChart(aggregateDataSet(), locationvar='Provider.State', colorvar='PerCapitaSpending', options = list(region='US', displayMode='regions', resolution='provinces', colorAxis="{colors:['#FFFFFF','#0000FF']}", width=1000, height=400)), 
+           'Outpatient Care' = gvisGeoChart(aggregateDataSet(), locationvar='Provider.State', colorvar='PerCapitaSpending', options = list(region='US', displayMode='regions', resolution='provinces', colorAxis="{colors:['#FFFFFF','#0000FF']}", width=1000, height=400)),
+           'Top Prescriptions' = gvisLineChart(aggregateDataSet(), xvar='Year', yvar='TotalSpending', options = list(title='Top Prescriptions Medicare Spending by Type', vAxis="{format:'$###,###,###'}", width=1000, height=400, legend="{position:'none'}")) 
+    )
   })
 
+  # make some summary tables that go below the charts
+  output$tableOutput <- renderTable(aggregateDataSet())
+  
 })
-
-# a <- merge(merge(with(med.in.df, aggregate(InPatientSpending~Year, FUN=sum)),with(med.out.df, aggregate(OutPatientSpending~Year, FUN=sum)), by='Year'), with(rx.df, aggregate(PrescriptionSpending~Year, FUN=sum)), by='Year')
-# plot(gvisTable(a, options = list(width=1200), formats=list(Year='####',InPatientSpending='$###,###,###',OutPatientSpending='$###,###,###',PrescriptionSpending='$###,###,###')))
-
-
