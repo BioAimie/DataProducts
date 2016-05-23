@@ -22,7 +22,10 @@ shinyUI(fluidPage(
     
     fluidRow(
       
-      textOutput('Table should go here!')
-      # uiOutput('summaryTable')
+      column(3),
+      column(9,
+             h3('Data Summary'),
+             tableOutput('tableOutput')
+      )
     )
 )) 
