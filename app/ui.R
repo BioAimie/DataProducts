@@ -1,3 +1,8 @@
+# load the necessary packages
+library(shiny)
+library(RCurl)
+library(googleVis)
+
 shinyUI(fluidPage(
   
   includeCSS('style.css'),

@@ -1,0 +1,9 @@
+name: MedicareSpendingOverview
+account: bioaimie
+server: shinyapps.io
+appId: 103919
+bundleId: 460868
+url: https://bioaimie.shinyapps.io/MedicareSpendingOverview/
+when: 1464053046.35087
+asMultiple: FALSE
+asStatic: FALSE
