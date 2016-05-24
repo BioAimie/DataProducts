@@ -6,6 +6,14 @@ h1 {
     color: lightgreen;
 }
 
+h3 {
+    font-family: 'Lobster', cursive;
+    font-weight: bolder;
+    color: lightgreen;
+    padding-top: 5%;
+    margin-left: -5%;
+}
+
 body {
     background-color: slategray;
 }
@@ -21,4 +29,12 @@ label.control-label {
 #chartOutput.shiny-html-output.shiny-bound-output {
     padding-top: 5%;
     margin-left: -5%;
+}
+
+#tableOutput.shiny-html-output.shiny-bound-output {
+    margin-left: -5%;
+    font-family: sans-serif;
+    background-color: white;
+    color: slategray;
+    border-color: white;
 }
