@@ -1,0 +1,57 @@
+<style>
+
+.chartHeader {
+
+  font-weight: bold;
+  color: coral;
+}
+
+.body {
+
+  background-color: white;
+}
+
+</style>
+
+Medicare Spending Overview: An Interactive App
+========================================================
+author: Aimie Faucett, Associate Data Scientist
+date: `r format(Sys.Date(), format = '%B %d, %Y')`
+autosize: true
+transition: rotate
+
+<small>
+Coursera Data Science Specialization <br/>
+Data Products Course <br/>
+Course Project
+</small>
+
+Motivation
+========================================================
+transition: rotate
+
+The U.S. government spent appxoimately $2.45 trillon in mandatory spending, 38.4% was on Medicare & Health. An additional $66.03 billion was spent on discretionary spending in the same category. 
+- The U.S. spends a significant amount on this category. 
+- <span class='emphasized'>The public should have an easy to use app to better understand where the money is going.</span>
+
+<p class='chartHeader'> Discretionary Spending 2015 </p>
+```{r echo = FALSE, results='asis'}
+library(googleVis)
+require(googleVis)
+discretionary.items <- c('Social Security, Unemployment & Labor','Transportation','Food & Agriculture','Military','Government','Education','Medicare & Health','Veteran Benefits','Housing & Community','International Affairs','Energy & Environment','Science')
+discretionary.money <- c(29.1,26.3,13.1,598.5,72.9,70,66,65.3,63.2,40.9,39.1,29.7)
+discretionary <- data.frame(Item = discretionary.items, Spending = discretionary.money)
+p1 <- gvisPieChart(discretionary, labelvar='Item', numvar='Spending', options=list(legend="{position: 'labeled'}"))
+print(p1, tag='chart')
+```
+
+<p class='chartHeader'> Discretionary Spending 2015 </p>
+```{r echo=FALSE, results='asis'}
+mandatory.items <- c('Social Security, Unemployment & Labor','Medicare & Health','Food & Agriculture','Veteran Benefits','Transportation','Other')
+mandatory.money <- c(1246.6,985.7,122.6,95.3,58.7,58.2)
+mandatory <- data.frame(Item = mandatory.items, Spending = mandatory.money)
+p2 <- gvisPieChart(mandatory, labelvar='Item', numvar='Spending', options=list(legend="{position: 'labeled'}"))
+print(p2, tag='chart')
+
+```
+
