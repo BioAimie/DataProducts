@@ -11,7 +11,7 @@ h3 {
     font-weight: bolder;
     color: lightgreen;
     padding-top: 5%;
-    margin-left: -5%;
+    margin-left: -2%;
 }
 
 body {
@@ -28,13 +28,29 @@ label.control-label {
 
 #chartOutput.shiny-html-output.shiny-bound-output {
     padding-top: 5%;
-    margin-left: -5%;
+    margin-left: -2%;
 }
 
 #tableOutput.shiny-html-output.shiny-bound-output {
-    margin-left: -5%;
+    margin-left: -2%;
     font-family: sans-serif;
     background-color: white;
     color: slategray;
     border-color: white;
+    width: 800px;
+}
+
+#tableOutput.shiny-html-output.shiny-bound-output th {
+    font-weight: bold;
+    color: coral;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+#tableOutput.shiny-html-output.shiny-bound-output td {
+    font-family: sans-serif;
+    text-align: center;
+    padding-left: 2em;
+    padding-right: 2em;
+    width: 200px;
 }
