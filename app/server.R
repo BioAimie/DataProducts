@@ -1,5 +1,5 @@
 # set working directory... take this out when the app goes live
-# setwd('~/Coursera/DataProducts/app')
+# setwd('~/Documents/Coursera Data Science/DataProducts/app/')
 
 # load the necessary packages
 library(shiny)
@@ -53,6 +53,12 @@ source('trimForTable.R')
 
 # create the server object
 shinyServer(function(input, output) {
+  
+  # print a description of how to use the web app
+  output$appDesc <- renderText(
+    
+    'This app shows the user a chart and table based on user input. Sometimes the page needs to be reloaded the first time before the chart shows up. To use the app, the user should select a type of spending. If the user selects Inpatient, Oupatient, or Top Prescription Spending, another drop down appears and allows the user to specify which category of care or drug the data should be filtered by.'
+  )
   
   # create a list of categories that should be available for filtering - REACTIVE
   categoryList <- reactive({
