@@ -6,11 +6,6 @@
   color: coral;
 }
 
-.body {
-
-  background-color: white;
-}
-
 </style>
 
 Medicare Spending Overview: An Interactive App
@@ -19,6 +14,8 @@ author: Aimie Faucett, Associate Data Scientist
 date: `r format(Sys.Date(), format = '%B %d, %Y')`
 autosize: true
 transition: rotate
+width: 1400
+height: 1000
 
 <small>
 Coursera Data Science Specialization <br/>
@@ -26,13 +23,13 @@ Data Products Course <br/>
 Course Project
 </small>
 
+</span>
+
 Motivation
 ========================================================
 transition: rotate
 
-The U.S. government spent appxoimately $2.45 trillon in mandatory spending, 38.4% was on Medicare & Health. An additional $66.03 billion was spent on discretionary spending in the same category. 
-- The U.S. spends a significant amount on this category. 
-- <span class='emphasized'>The public should have an easy to use app to better understand where the money is going.</span>
+The U.S. government spends a significant amount of money on Medicare. The public should have an easy to use app to better understand where the money is going.
 
 <p class='chartHeader'> Discretionary Spending 2015 </p>
 ```{r echo = FALSE, results='asis'}
@@ -55,3 +52,42 @@ print(p2, tag='chart')
 
 ```
 
+Data Aggregation
+========================================================
+transition: rotate
+
+<span class='chartHeader'> Raw Data </span> <br/>
+- Inpatient Spending by state, service and year
+- Outpatient Spending by state, service and year
+- Spending on top prescription drugs by drug name and year
+
+<span class='chartHeader'> Data Manipulation </span> <br/>
+Prescription spending data are aggregated by drug indication (www.drugs.com website, brand-name drugs are classified by disease or therapy) as the indication is more meaningful than a brand name of drug. Inpatient/outpatient spending are computed per capita (using 2015 population estimates from www.census.gov/popest/data/).
+
+<span class='chartHeader'> Chart and Table Output </span> <br/>
+- Total spending is shown by year as a broad overview in an interactive stacked bar chart.
+- Per capita spending on inpatient and outpatient care are aggregated by state over all years, and shown as an interactive geo-map chart.
+- Top prescription spending is aggregated by drug indication and year. The data are displayed as a line chart. The data are limited to the indication selected by the user.
+
+Interactive App Interface
+========================================================
+transition: rotate
+
+<span class='chartHeader'> Sample Output </span> <br/>
+
+<img src='img/screenshot.png'>
+
+
+Further Work
+========================================================
+transition: rotate
+
+<span class='chartHeader'> Adding More Data </span> <br/>
+- Data on medical equipment and supplies (e.g. wheelchairs or oxygen tanks)
+- Data on over-the-counter drugs and healthcare-related items
+- Data on Medicare spending
+
+<span class='chartHeader'> Adding More Inputs </span> <br/>
+- Allowing the user to toggle between chart types
+- Allowing the user to have mulitple inputs for drug indications or categories of care
+- Allowing users to download charts and/or data tables

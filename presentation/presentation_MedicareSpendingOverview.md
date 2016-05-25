@@ -6,11 +6,6 @@
   color: coral;
 }
 
-.body {
-
-  background-color: white;
-}
-
 </style>
 
 Medicare Spending Overview: An Interactive App
@@ -19,6 +14,8 @@ author: Aimie Faucett, Associate Data Scientist
 date: May 24, 2016
 autosize: true
 transition: rotate
+width: 1400
+height: 1000
 
 <small>
 Coursera Data Science Specialization <br/>
@@ -26,24 +23,24 @@ Data Products Course <br/>
 Course Project
 </small>
 
+</span>
+
 Motivation
 ========================================================
 transition: rotate
 
-The U.S. government spent appxoimately $2.45 trillon in mandatory spending, 38.4% was on Medicare & Health. An additional $66.03 billion was spent on discretionary spending in the same category. 
-- The U.S. spends a significant amount on this category. 
-- <span class='emphasized'>The public should have an easy to use app to better understand where the money is going.</span>
+The U.S. government spends a significant amount of money on Medicare. The public should have an easy to use app to better understand where the money is going.
 
 <p class='chartHeader'> Discretionary Spending 2015 </p>
 <!-- PieChart generated in R 3.2.4 by googleVis 0.5.10 package -->
-<!-- Tue May 24 12:38:51 2016 -->
+<!-- Tue May 24 20:09:01 2016 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataPieChartID1f00b0c1b4b () {
+function gvisDataPieChartIDc397fa2e880 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -103,14 +100,14 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartPieChartID1f00b0c1b4b() {
-var data = gvisDataPieChartID1f00b0c1b4b();
+function drawChartPieChartIDc397fa2e880() {
+var data = gvisDataPieChartIDc397fa2e880();
 var options = {};
 options["allowHtml"] = true;
 options["legend"] = {position: 'labeled'};
 
     var chart = new google.visualization.PieChart(
-    document.getElementById('PieChartID1f00b0c1b4b')
+    document.getElementById('PieChartIDc397fa2e880')
     );
     chart.draw(data,options);
     
@@ -134,9 +131,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartPieChartID1f00b0c1b4b);
+callbacks.push(drawChartPieChartIDc397fa2e880);
 })();
-function displayChartPieChartID1f00b0c1b4b() {
+function displayChartPieChartIDc397fa2e880() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -160,24 +157,24 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartPieChartID1f00b0c1b4b"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartPieChartIDc397fa2e880"></script>
  
 <!-- divChart -->
   
-<div id="PieChartID1f00b0c1b4b" 
+<div id="PieChartIDc397fa2e880" 
   style="width: 500; height: automatic;">
 </div>
 
 <p class='chartHeader'> Discretionary Spending 2015 </p>
 <!-- PieChart generated in R 3.2.4 by googleVis 0.5.10 package -->
-<!-- Tue May 24 12:38:51 2016 -->
+<!-- Tue May 24 20:09:01 2016 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataPieChartID1f00670873da () {
+function gvisDataPieChartIDc397cd3dcb2 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -213,14 +210,14 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartPieChartID1f00670873da() {
-var data = gvisDataPieChartID1f00670873da();
+function drawChartPieChartIDc397cd3dcb2() {
+var data = gvisDataPieChartIDc397cd3dcb2();
 var options = {};
 options["allowHtml"] = true;
 options["legend"] = {position: 'labeled'};
 
     var chart = new google.visualization.PieChart(
-    document.getElementById('PieChartID1f00670873da')
+    document.getElementById('PieChartIDc397cd3dcb2')
     );
     chart.draw(data,options);
     
@@ -244,9 +241,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartPieChartID1f00670873da);
+callbacks.push(drawChartPieChartIDc397cd3dcb2);
 })();
-function displayChartPieChartID1f00670873da() {
+function displayChartPieChartIDc397cd3dcb2() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -270,11 +267,50 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartPieChartID1f00670873da"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartPieChartIDc397cd3dcb2"></script>
  
 <!-- divChart -->
   
-<div id="PieChartID1f00670873da" 
+<div id="PieChartIDc397cd3dcb2" 
   style="width: 500; height: automatic;">
 </div>
 
+Data Aggregation
+========================================================
+transition: rotate
+
+<span class='chartHeader'> Raw Data </span> <br/>
+- Inpatient Spending by state, service and year
+- Outpatient Spending by state, service and year
+- Spending on top prescription drugs by drug name and year
+
+<span class='chartHeader'> Data Manipulation </span> <br/>
+Prescription spending data are aggregated by drug indication (www.drugs.com website, brand-name drugs are classified by disease or therapy) as the indication is more meaningful than a brand name of drug. Inpatient/outpatient spending are computed per capita (using 2015 population estimates from www.census.gov/popest/data/).
+
+<span class='chartHeader'> Chart and Table Output </span> <br/>
+- Total spending is shown by year as a broad overview in an interactive stacked bar chart.
+- Per capita spending on inpatient and outpatient care are aggregated by state over all years, and shown as an interactive geo-map chart.
+- Top prescription spending is aggregated by drug indication and year. The data are displayed as a line chart. The data are limited to the indication selected by the user.
+
+Interactive App Interface
+========================================================
+transition: rotate
+
+<span class='chartHeader'> Sample Output </span> <br/>
+
+<img src='img/screenshot.png'>
+
+
+Further Work
+========================================================
+transition: rotate
+
+<span class='chartHeader'> Adding More Data </span> <br/>
+- Data on medical equipment and supplies (e.g. wheelchairs or oxygen tanks)
+- Data on over-the-counter drugs and healthcare-related items
+- Data on Medicare spending
+
+<span class='chartHeader'> Adding More Inputs </span> <br/>
+- Allowing the user to toggle between chart types
+- Allowing the user to have mulitple inputs for drug indications or categories of care
+- Allowing users to download charts and/or data tables
